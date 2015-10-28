@@ -3,8 +3,15 @@
 
 @import 'normalizecss/normalize.css'
 
+$purple = #3e3a84
+$white = #fcfcfd
+
+body
+ font-color: $white
+
 .bespoke-parent
   text-size-adjust: auto
+  background: $white
   position: absolute
   top: 0
   left: 0
@@ -23,8 +30,10 @@
     pointer-events: auto
 
 .bespoke-slide
+  transition: opacity .5s ease
   width: 640px
   height: 480px
+  background: $purple
   position: absolute
   top: 50%
   left: 50%
@@ -35,9 +44,16 @@
   justify-content: center
   align-items: center
 
+.bespoke-active
+  transition-delay: .5s
+
+
 .bespoke-inactive
   opacity: 0
   pointer-events: none
+
+.bespoke-bullet
+  transition: opacity .3s ease
 
 .bespoke-bullet-inactive
   opacity: 0
@@ -45,6 +61,7 @@
 
 .bespoke-backdrop
   position: absolute
+  background-color=cccccc
   top: 0
   left: 0
   right: 0
@@ -73,3 +90,4 @@
 
 .emphatic-text
   color: white
+
