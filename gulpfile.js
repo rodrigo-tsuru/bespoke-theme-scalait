@@ -22,8 +22,8 @@ var gulp = require('gulp'),
 gulp.task('default', ['clean', 'compile']);
 gulp.task('demo', ['compile', 'watch', 'connect']);
 gulp.task('compile', ['compile:lib', 'compile:demo']);
-gulp.task('compile:lib', ['stylus', 'browserify:lib']);
-gulp.task('compile:demo', ['jade', 'browserify:demo', 'images']);
+gulp.task('compile:lib', ['stylus', 'browserify:lib','images:lib']);
+gulp.task('compile:demo', ['jade', 'browserify:demo', 'images:demo']);
 
 gulp.task('watch', function() {
   gulp.watch('lib/*', ['compile:lib', 'browserify:demo']);
@@ -114,9 +114,14 @@ gulp.task('jade', ['clean:jade'], function() {
     .pipe(connect.reload());
 });
 
-gulp.task('images', ['clean:images'], function() {
-  return gulp.src('demo/src/images/*')
+gulp.task('images:demo', ['clean:images'], function() {
+  return gulp.src(['lib/images/*','demo/src/images/*'])
     .pipe(gulp.dest('demo/dist/images'));
+});
+
+gulp.task('images:lib', ['clean:images'], function() {
+  return gulp.src('lib/images/*')
+    .pipe(gulp.dest('dist/images'));
 });
 
 gulp.task('connect', ['compile'], function(done) {
