@@ -22,8 +22,8 @@ var gulp = require('gulp'),
 gulp.task('default', ['clean', 'compile']);
 gulp.task('demo', ['compile', 'watch', 'connect']);
 gulp.task('compile', ['compile:lib', 'compile:demo']);
-gulp.task('compile:lib', ['stylus', 'browserify:lib','images:lib']);
-gulp.task('compile:demo', ['jade', 'browserify:demo', 'images:demo']);
+gulp.task('compile:lib', ['stylus', 'browserify:lib','images:lib','fonts:lib']);
+gulp.task('compile:demo', ['jade', 'browserify:demo', 'images:demo','fonts:demo']);
 
 gulp.task('watch', function() {
   gulp.watch('lib/*', ['compile:lib', 'browserify:demo']);
@@ -54,8 +54,23 @@ gulp.task('clean:jade', function() {
     .pipe(clean());
 });
 
-gulp.task('clean:images', function() {
+gulp.task('clean:images:demo', function() {
   return gulp.src(['demo/dist/images'], { read: false })
+    .pipe(clean());
+});
+
+gulp.task('clean:images:lib', function() {
+  return gulp.src(['dist/images'], { read: false })
+    .pipe(clean());
+});
+
+gulp.task('clean:fonts:demo', function() {
+  return gulp.src(['demo/dist/fonts'], { read: false })
+    .pipe(clean());
+});
+
+gulp.task('clean:fonts:lib', function() {
+  return gulp.src(['dist/fonts'], { read: false })
     .pipe(clean());
 });
 
@@ -114,14 +129,24 @@ gulp.task('jade', ['clean:jade'], function() {
     .pipe(connect.reload());
 });
 
-gulp.task('images:demo', ['clean:images'], function() {
+gulp.task('images:demo', ['clean:images:demo'], function() {
   return gulp.src(['lib/images/*','demo/src/images/*'])
     .pipe(gulp.dest('demo/dist/images'));
 });
 
-gulp.task('images:lib', ['clean:images'], function() {
+gulp.task('images:lib', ['clean:images:lib'], function() {
   return gulp.src('lib/images/*')
     .pipe(gulp.dest('dist/images'));
+});
+
+gulp.task('fonts:demo', ['clean:fonts:demo'], function() {
+  return gulp.src('lib/fonts/*')
+    .pipe(gulp.dest('demo/dist/fonts'));
+});
+
+gulp.task('fonts:lib', ['clean:fonts:lib'], function() {
+  return gulp.src('lib/fonts/*')
+    .pipe(gulp.dest('dist/fonts'));
 });
 
 gulp.task('connect', ['compile'], function(done) {
